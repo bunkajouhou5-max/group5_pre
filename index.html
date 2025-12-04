@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <title>災害意識診断</title>
+    <style>
+        body { font-family: sans-serif; margin: 40px; }
+        .question { margin-bottom: 20px; }
+        .btn { padding: 10px 20px; font-size: 18px; cursor: pointer; }
+        #result { margin-top: 30px; font-size: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<h1>災害意識診断</h1>
+<p>以下の質問に答えて、あなたの災害への備えレベルをチェックしましょう。</p>
+
+<form id="quizForm">
+    <div class="question">
+        <p>1. 非常食を3日分以上備蓄していますか？</p>
+        <label><input type="radio" name="q1" value="2"> はい</label><br>
+        <label><input type="radio" name="q1" value="0"> いいえ</label>
+    </div>
+
+    <div class="question">
+        <p>2. 家族と避難場所や連絡方法を決めていますか？</p>
+        <label><input type="radio" name="q2" value="2"> はい</label><br>
+        <label><input type="radio" name="q2" value="0"> いいえ</label>
+    </div>
+
+    <div class="question">
+        <p>3. 家に防災リュックはありますか？</p>
+        <label><input type="radio" name="q3" value="2"> はい</label><br>
+        <label><input type="radio" name="q3" value="0"> いいえ</label>
+    </div>
+
+    <button type="button" class="btn" onclick="checkResult()">診断する</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+function checkResult() {
+    let score = 0;
+    const form = document.forms["quizForm"];
+
+    // 質問3つなのでループ
+    for (let i = 1; i <= 3; i++) {
+        const answer = form["q" + i].value;
+        if (answer) score += Number(answer);
+    }
+
+    let message = "";
+    if (score === 6) {
+        message = "◎ 素晴らしい！あなたの災害対策は非常に整っています。";
+    } else if (score >= 3) {
+        message = "○ 良いですね！もう少し備えると完璧です。";
+    } else {
+        message = "△ 防災意識を高めましょう。今すぐ備蓄や避難計画を！";
+    }
+
+    document.getElementById("result").textContent = "診断結果：" + message;
+}
+</script>
+
+</body>
+</html>
