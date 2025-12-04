@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>性格診断テスト</title>
+<style>
+  body { font-family: sans-serif; margin: 40px; max-width: 700px; }
+  .page { display: none; }
+  .active { display: block; }
+  button { padding: 10px 20px; margin: 5px; font-size: 16px; cursor: pointer; }
+  #resultTitle { font-size: 22px; font-weight: bold; margin-top: 20px; }
+  #resultDetail { font-size: 18px; margin-top: 10px; }
+  #resultImg { margin-top: 20px; max-width: 300px; }
+</style>
+</head>
+<body>
+
+<h1>性格診断テスト</h1>
+<p>直感で答えてください。</p>
+
+<!-- 質問1 -->
+<div id="page1" class="page active">
+  <p>質問1：初対面の人と話すのが得意ですか？</p>
+  <button onclick="nextPage(1,'A')">はい</button>
+  <button onclick="nextPage(1,'B')">いいえ</button>
+</div>
+
+<!-- 質問2 -->
+<div id="page2" class="page">
+  <p>質問2：計画を立てて行動するタイプですか？</p>
+  <button onclick="nextPage(2,'B')">はい</button>
+  <button onclick="nextPage(2,'C')">いいえ</button>
+</div>
+
+<!-- 質問3 -->
+<div id="page3" class="page">
+  <p>質問3：困っている人を放っておけないですか？</p>
+  <button onclick="nextPage(3,'C')">はい</button>
+  <button onclick="nextPage(3,'A')">いいえ</button>
+</div>
+
+<!-- 質問4 -->
+<div id="page4" class="page">
+  <p>質問4：新しいことに挑戦するのが好きですか？</p>
+  <button onclick="nextPage(4,'A')">はい</button>
+  <button onclick="nextPage(4,'B')">いいえ</button>
+</div>
+
+<!-- 質問5 -->
+<div id="page5" class="page">
+  <p>質問5：人と協力するより自分でやる方が得意ですか？</p>
+  <button onclick="nextPage(5,'B')">はい</button>
+  <button onclick="nextPage(5,'C')">いいえ</button>
+</div>
+
+<!-- 結果ページ -->
+<div id="resultPage" class="page">
+  <div id="resultTitle"></div>
+  <div id="resultDetail"></div>
+  <img id="resultImg" src="" alt="診断イラスト">
+</div>
+
+<script>
+let count = {A:0, B:0, C:0};
+
+function nextPage(current, answer){
+  // 回答を記録
+  count[answer]++;
+
+  // 現在のページを隠す
+  document.getElementById("page"+current).classList.remove("active");
+
+  // 次のページへ
+  if(current < 5){
+    document.getElementById("page"+(current+1)).classList.add("active");
+  } else {
+    showResult();
+  }
+}
+
+function showResult(){
+  // 最も多いタイプを判定
+  let resultType = Object.keys(count).reduce((a,b)=>count[a]>count[b]?a:b);
+
+  let title, detail, imgSrc;
+
+  if(resultType === "A"){
+    title = "あなたは【リーダータイプ】！";
+    detail = "行動力があり、周りを引っ張るカリスマ性があります。";
+    imgSrc = "leader.png"; // パソコンにある画像ファイル名に変更してください
+  } else if(resultType === "B"){
+    title = "あなたは【思考型タイプ】！";
+    detail = "論理的で計画的。安心感のある安定した性格です。";
+    imgSrc = "thinker.png";
+  } else {
+    title = "あなたは【協調タイプ】！";
+    detail = "やさしく協力的で、人間関係を大切にするタイプです。";
+    imgSrc = "helper.png";
+  }
+
+  document.getElementById("resultTitle").textContent = title;
+  document.getElementById("resultDetail").textContent = detail;
+  document.getElementById("resultImg").src = imgSrc;
+
+  document.getElementById("resultPage").classList.add("active");
+}
+</script>
+
+</body>
+</html>
